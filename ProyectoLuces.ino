@@ -77,6 +77,7 @@ void handleFade() {
     strip.fill(strip.Color(255 - j, j, 0));
     strip.show();
     delay(15);
+    server.handleClient();
     if (server.hasArg("estado")) {
       op = server.arg("estado").toInt();
       if (op != 1) {
@@ -89,6 +90,7 @@ void handleFade() {
     strip.fill(strip.Color(0, 255 - k, k));
     strip.show();
     delay(15);
+    server.handleClient();
     if (server.hasArg("estado")) {
       op = server.arg("estado").toInt();
       if (op != 1) {
