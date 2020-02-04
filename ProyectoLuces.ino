@@ -17,12 +17,10 @@ ESP8266WebServer server(80);
 int red;
 int blue;
 int green;
-int redF;
-int greenF;
-int blueF;
+int redF, redFC;
+int greenF, greenFC;
+int blueF, blueFC;
 int op;
-
-int FireColors[5][3] = {{0, 161, 0} , {35, 234, 0} , {129, 255, 0} , {85, 242, 0} , {0, 216, 0}};
 
 void setup() {
   Serial.begin(115200);
@@ -60,13 +58,6 @@ void handleColorPuro() {
 }
 
 void handleFade() {
-  server.handleClient();
-  if (server.hasArg("estado")) {
-    op = server.arg("estado").toInt();
-    if (op != 1) {
-      strip.clear();
-    }
-  }
   //blue to green
   server.send(200, "text/plain", "fade");
   for (int i = 0; i <= 255; i++) {
@@ -99,6 +90,13 @@ void handleFade() {
     strip.fill(strip.Color(0, 255 - k, k));
     strip.show();
     delay(15);
+  }
+  server.handleClient();
+  if (server.hasArg("estado")) {
+    op = server.arg("estado").toInt();
+    if (op != 1) {
+      strip.clear();
+    }
   }
 }
 
@@ -247,6 +245,12 @@ void fire() {
         strip.clear();
       }
     }
+    if (server.hasArg("redF")) {
+      if(server.arg("redF").toInt()!= redF || server.arg("greenF").toInt()!= greenF || server.arg("blueF").toInt()!= blueF){
+        break;
+        strip.clear();
+      }
+    }
   }
 }
 
@@ -276,10 +280,16 @@ void sideFill() {
         strip.clear();
       }
     }
+    if (server.hasArg("redF")) {
+      if(server.arg("redF").toInt()!= redF || server.arg("greenF").toInt()!= greenF || server.arg("blueF").toInt()!= blueF){
+        break;
+        strip.clear();
+      }
+    }
   }
 }
 
-void apagarLeds(){
+void apagarLeds() {
   strip.clear();
   strip.show();
 }
