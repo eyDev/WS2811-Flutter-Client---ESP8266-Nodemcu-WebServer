@@ -17,9 +17,9 @@ ESP8266WebServer server(80);
 int red;
 int blue;
 int green;
-int redF, redFC;
-int greenF, greenFC;
-int blueF, blueFC;
+int redF;
+int greenF;
+int blueF;
 int op;
 
 void setup() {
