@@ -2,7 +2,7 @@
 #include <ESP8266WebServer.h>
 #include <Adafruit_NeoPixel.h>
 
-const char* ssid = "YOURSSID";
+const char* ssid = "YURSSID";
 const char* password = "YOURPASS";
 
 IPAddress local_IP(192, 168, 1, 200);
@@ -246,7 +246,7 @@ void fire() {
       }
     }
     if (server.hasArg("redF")) {
-      if(server.arg("redF").toInt()!= redF || server.arg("greenF").toInt()!= greenF || server.arg("blueF").toInt()!= blueF){
+      if (server.arg("redF").toInt() != redF || server.arg("greenF").toInt() != greenF || server.arg("blueF").toInt() != blueF) {
         break;
         strip.clear();
       }
@@ -281,7 +281,7 @@ void sideFill() {
       }
     }
     if (server.hasArg("redF")) {
-      if(server.arg("redF").toInt()!= redF || server.arg("greenF").toInt()!= greenF || server.arg("blueF").toInt()!= blueF){
+      if (server.arg("redF").toInt() != redF || server.arg("greenF").toInt() != greenF || server.arg("blueF").toInt() != blueF) {
         break;
         strip.clear();
       }
@@ -321,6 +321,9 @@ void loop() {
       break;
     default:
       server.handleClient();
+      if (server.hasArg("estado")) {
+        op = server.arg("estado").toInt();
+      }
       break;
   }
 }
