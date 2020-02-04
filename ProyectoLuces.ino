@@ -60,42 +60,56 @@ void handleColorPuro() {
 void handleFade() {
   //blue to green
   server.send(200, "text/plain", "fade");
-  for (int i = 0; i <= 255; i++) {
-    strip.fill(strip.Color(i, 0, 255 - i));
-    strip.show();
-    delay(15);
-    server.handleClient();
-    if (server.hasArg("estado")) {
-      op = server.arg("estado").toInt();
-      if (op != 1) {
-        strip.clear();
+  while (true) {
+    for (int i = 0; i <= 255; i++) {
+      strip.fill(strip.Color(i, 0, 255 - i));
+      strip.show();
+      delay(15);
+      server.handleClient();
+      if (server.hasArg("estado")) {
+        op = server.arg("estado").toInt();
+        if (op != 1) {
+          break;
+          strip.clear();
+        }
       }
     }
-  }
-  //green to red
-  for (int j = 0; j <= 255; j++) {
-    strip.fill(strip.Color(255 - j, j, 0));
-    strip.show();
-    delay(15);
-    server.handleClient();
-    if (server.hasArg("estado")) {
-      op = server.arg("estado").toInt();
-      if (op != 1) {
-        strip.clear();
+    if (op != 1) {
+      break;
+    }
+    //green to red
+    for (int j = 0; j <= 255; j++) {
+      strip.fill(strip.Color(255 - j, j, 0));
+      strip.show();
+      delay(15);
+      server.handleClient();
+      if (server.hasArg("estado")) {
+        op = server.arg("estado").toInt();
+        if (op != 1) {
+          break;
+          strip.clear();
+        }
       }
     }
-  }
-  //red to blue
-  for (int k = 0; k <= 255; k++) {
-    strip.fill(strip.Color(0, 255 - k, k));
-    strip.show();
-    delay(15);
-    server.handleClient();
-    if (server.hasArg("estado")) {
-      op = server.arg("estado").toInt();
-      if (op != 1) {
-        strip.clear();
+    if (op != 1) {
+      break;
+    }
+    //red to blue
+    for (int k = 0; k <= 255; k++) {
+      strip.fill(strip.Color(0, 255 - k, k));
+      strip.show();
+      delay(15);
+      server.handleClient();
+      if (server.hasArg("estado")) {
+        op = server.arg("estado").toInt();
+        if (op != 1) {
+          break;
+          strip.clear();
+        }
       }
+    }
+    if (op != 1) {
+      break;
     }
   }
 }
