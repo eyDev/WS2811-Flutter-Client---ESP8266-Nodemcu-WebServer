@@ -2,7 +2,7 @@
 #include <ESP8266WebServer.h>
 #include <Adafruit_NeoPixel.h>
 
-const char* ssid = "YURSSID";
+const char* ssid = "YOURSSID";
 const char* password = "YOURPASS";
 
 IPAddress local_IP(192, 168, 1, 200);
@@ -64,12 +64,12 @@ void handleFade() {
     strip.fill(strip.Color(i, 0, 255 - i));
     strip.show();
     delay(15);
-  }
-  server.handleClient();
-  if (server.hasArg("estado")) {
-    op = server.arg("estado").toInt();
-    if (op != 1) {
-      strip.clear();
+    server.handleClient();
+    if (server.hasArg("estado")) {
+      op = server.arg("estado").toInt();
+      if (op != 1) {
+        strip.clear();
+      }
     }
   }
   //green to red
@@ -77,12 +77,11 @@ void handleFade() {
     strip.fill(strip.Color(255 - j, j, 0));
     strip.show();
     delay(15);
-  }
-  server.handleClient();
-  if (server.hasArg("estado")) {
-    op = server.arg("estado").toInt();
-    if (op != 1) {
-      strip.clear();
+    if (server.hasArg("estado")) {
+      op = server.arg("estado").toInt();
+      if (op != 1) {
+        strip.clear();
+      }
     }
   }
   //red to blue
@@ -90,12 +89,11 @@ void handleFade() {
     strip.fill(strip.Color(0, 255 - k, k));
     strip.show();
     delay(15);
-  }
-  server.handleClient();
-  if (server.hasArg("estado")) {
-    op = server.arg("estado").toInt();
-    if (op != 1) {
-      strip.clear();
+    if (server.hasArg("estado")) {
+      op = server.arg("estado").toInt();
+      if (op != 1) {
+        strip.clear();
+      }
     }
   }
 }
@@ -134,6 +132,7 @@ void colorWipe(uint32_t color, int wait) {
 }
 
 void colorWiper() {
+  strip.clear();
   while (true) {
     colorWipe(strip.Color(0, 255, 0), 50);
     server.handleClient();
@@ -255,6 +254,7 @@ void fire() {
 }
 
 void sideFill() {
+  strip.clear();
   redF = server.arg("redF").toInt();
   greenF = server.arg("greenF").toInt();
   blueF = server.arg("blueF").toInt();
@@ -265,7 +265,20 @@ void sideFill() {
       strip.show();
       delay(30);
     }
-
+    server.handleClient();
+    if (server.hasArg("estado")) {
+      op = server.arg("estado").toInt();
+      if (op != 5) {
+        break;
+        strip.clear();
+      }
+    }
+    if (server.hasArg("redF")) {
+      if (server.arg("redF").toInt() != redF || server.arg("greenF").toInt() != greenF || server.arg("blueF").toInt() != blueF) {
+        break;
+        strip.clear();
+      }
+    }
     for (uint16_t i = 0; i < (strip.numPixels() / 2); i++) { // reverse
       strip.setPixelColor(strip.numPixels() / 2 + i, strip.Color(0, 0, 0));
       strip.setPixelColor(strip.numPixels() / 2 - i, strip.Color(0, 0, 0));
