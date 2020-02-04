@@ -292,6 +292,7 @@ void sideFill() {
 void apagarLeds() {
   strip.clear();
   strip.show();
+  op = 7;
 }
 
 void loop() {
