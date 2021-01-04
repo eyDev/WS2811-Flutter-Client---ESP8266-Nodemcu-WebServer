@@ -1,17 +1,19 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:leds/prefs/preferences.dart';
 
 class ServerProvider {
-  final String _url = '192.168.1.200';
+  final UserPreferences prefs = UserPreferences();
 
   Future<String> changeState(Map<String, String> queryParameter) async {
+    final String _url = prefs.ipAddress;
     final url = Uri.http(_url, '/luces', queryParameter);
-    print(url);
     try {
-      final response = await http.post(url);
+      final response = await http.post(url).timeout(const Duration(seconds: 5));
       return response.statusCode == 200 ? 'Changed' : 'Error';
-    } catch (e) {
-      print(e);
+    } on TimeoutException {
+      return 'Error';
+    } on Error {
       return 'Error';
     }
   }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:leds/models/luzModel.dart';
 import 'package:leds/provider/postRequests.dart';
 import 'package:leds/widgets/colorToPick.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class DialogWidget extends StatefulWidget {
   final Luz luzEffect;
@@ -19,9 +21,7 @@ class _DialogWidgetState extends State<DialogWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.luzEffect.colorPicker
-        ? _dialogWithPicker()
-        : _dialogWithoutPicker();
+    return widget.luzEffect.colorPicker ? _dialogWithPicker() : _dialogWithoutPicker();
   }
 
   Widget _dialogWithPicker() {
@@ -36,19 +36,23 @@ class _DialogWidgetState extends State<DialogWidget> {
       ),
       actions: <Widget>[
         FlatButton(
-          child: Text('Cancelar'),
+          child: Text('cancell'.tr()),
           onPressed: () => Navigator.of(context).pop(),
         ),
         FlatButton(
-          child: Text('Cambiar Color'),
+          child: Text('changeColor'.tr()),
           onPressed: () {
+            Navigator.of(context).pop();
+            EasyLoading.show(status: 'loading'.tr(), maskType: EasyLoadingMaskType.black);
             serverProvider.changeState({
               'state': '${widget.luzEffect.name.replaceAll(' ', '')}',
               'red': '${colores.red}',
               'green': '${colores.green}',
               'blue': '${colores.blue}'
+            }).then((value) {
+              EasyLoading.dismiss();
+              value == 'Changed' ? EasyLoading.showSuccess('changed'.tr()) : EasyLoading.showError('error'.tr());
             });
-            Navigator.of(context).pop();
           },
         ),
       ],
@@ -64,20 +68,25 @@ class _DialogWidgetState extends State<DialogWidget> {
 
   Widget _dialogWithoutPicker() {
     return AlertDialog(
-      title: Text('Cambiar estado'),
-      content: Text(
-          '¿Está seguro que desea cambiar el modo a ${widget.luzEffect.name}?'),
+      title: Text('changeState'.tr()),
+      content: Text('changeStateDescription'.tr() + '${widget.luzEffect.name}?'),
       actions: <Widget>[
         FlatButton(
-          child: Text('Cancelar'),
+          child: Text('cancell'.tr()),
           onPressed: () => Navigator.of(context).pop(),
         ),
         FlatButton(
-          child: Text('Cambiar Modo'),
+          child: Text('changeMode'.tr()),
           onPressed: () {
-            serverProvider.changeState(
-                {'state': '${widget.luzEffect.name.replaceAll(' ', '')}'});
             Navigator.of(context).pop();
+            EasyLoading.show(
+              status: 'loading'.tr(),
+              maskType: EasyLoadingMaskType.black,
+            );
+            serverProvider.changeState({'state': '${widget.luzEffect.name.replaceAll(' ', '')}'}).then((value) {
+              EasyLoading.dismiss();
+              value == 'Changed' ? EasyLoading.showSuccess('changed'.tr()) : EasyLoading.showError('error'.tr());
+            });
           },
         ),
       ],

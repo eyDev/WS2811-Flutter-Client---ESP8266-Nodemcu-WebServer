@@ -25,15 +25,10 @@ void setup() {
   WiFi.begin(ssid, password);
   WiFi.config(local_IP, gateway, subnet);
   server.on("/luces", loop);
-  server.onNotFound(handleNotFound);
   server.begin();
   strip.begin();
   strip.show();
   strip.setBrightness(255);
-}
-
-void handleNotFound() {
-  server.send(404, "text/plain", "404: Not found");
 }
 
 void handleState() {
@@ -72,7 +67,6 @@ void rainbowCycle(int SpeedDelay) {
 
 byte * Wheel(byte WheelPos) {
   static byte c[3];
- 
   if(WheelPos < 85) {
    c[0]=WheelPos * 3;
    c[1]=255 - WheelPos * 3;
@@ -88,7 +82,6 @@ byte * Wheel(byte WheelPos) {
    c[1]=WheelPos * 3;
    c[2]=255 - WheelPos * 3;
   }
-
   return c;
 }
 
@@ -198,23 +191,25 @@ void handleSideFill() {
       strip.setPixelColor(strip.numPixels() - i, strip.Color(green, red, blue));
       strip.show();
       delay(30);
+      getRequests();
+      if (state != "SideFill") break;
+      if (server.hasArg("red")) {
+        if (server.arg("red").toInt() != red || server.arg("green").toInt() != green || server.arg("blue").toInt() != blue) break;
+      }
     }
-    getRequests();
     if (state != "SideFill") break;
-    if (server.hasArg("red")) {
-      if (server.arg("red").toInt() != red || server.arg("green").toInt() != green || server.arg("blue").toInt() != blue) break;
-    }
     for (uint16_t i = 0; i < (strip.numPixels() / 2); i++) { // reverse
       strip.setPixelColor(strip.numPixels() / 2 + i, strip.Color(0, 0, 0));
       strip.setPixelColor(strip.numPixels() / 2 - i, strip.Color(0, 0, 0));
       strip.show();
       delay(30);
+      getRequests();
+      if (state != "SideFill") break;
+      if (server.hasArg("red")) {
+        if (server.arg("red").toInt() != red || server.arg("green").toInt() != green || server.arg("blue").toInt() != blue) break;
+      }
     }
-    getRequests();
     if (state != "SideFill") break;
-    if (server.hasArg("red")) {
-      if (server.arg("red").toInt() != red || server.arg("green").toInt() != green || server.arg("blue").toInt() != blue) break;
-    }
   }
 }
 
@@ -287,7 +282,5 @@ void loop() {
   }else if (state == "TurnOff"){
     handleState();
     handleTurnOff();
-  }else{
-    handleNotFound();
   }
 }
