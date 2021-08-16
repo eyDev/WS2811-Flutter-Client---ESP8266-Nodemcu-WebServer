@@ -9,47 +9,47 @@ class UserPreferences {
   }
   UserPreferences._();
 
-  SharedPreferences _prefs;
+  SharedPreferences? _prefs;
 
   initPrefs() async {
     this._prefs = await SharedPreferences.getInstance();
   }
 
-  get ipAddress {
-    return _prefs.getString('ipAddress') ?? '192.168.1.200';
+  String get ipAddress {
+    return _prefs!.getString('ipAddress') ?? '192.168.1.200';
   }
 
   set ipAddress(String value) {
-    _prefs.setString('ipAddress', value);
+    _prefs!.setString('ipAddress', value);
   }
 
-  get primaryColor {
-    return Color.fromRGBO(_prefs.getInt('red') ?? 0, _prefs.getInt('green') ?? 0, _prefs.getInt('blue') ?? 0, 1.0);
+  Color get primaryColor {
+    return Color.fromRGBO(_prefs!.getInt('red') ?? 0, _prefs!.getInt('green') ?? 0, _prefs!.getInt('blue') ?? 0, 1.0);
   }
 
   set primaryColor(Color value) {
-    _prefs.setInt('red', value.red);
-    _prefs.setInt('green', value.green);
-    _prefs.setInt('blue', value.blue);
+    _prefs!.setInt('red', value.red);
+    _prefs!.setInt('green', value.green);
+    _prefs!.setInt('blue', value.blue);
   }
 
-  get darkMode {
-    return _prefs.getBool('darkMode') ?? false;
+  bool get darkMode {
+    return _prefs!.getBool('darkMode') ?? false;
   }
 
   set darkMode(bool value) {
-    _prefs.setBool('darkMode', value);
+    _prefs!.setBool('darkMode', value);
   }
 
-  get language {
+  String get language {
     String sl = ui.window.locale.languageCode;
     if (sl != 'en' && sl != 'es') {
       sl = 'en';
     }
-    return _prefs.getString('language') ?? sl;
+    return _prefs!.getString('language') ?? sl;
   }
 
   set language(String value) {
-    _prefs.setString('language', value);
+    _prefs!.setString('language', value);
   }
 }

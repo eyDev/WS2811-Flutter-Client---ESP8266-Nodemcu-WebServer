@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:leds/models/luzModel.dart';
-import 'package:leds/provider/postRequests.dart';
-import 'package:leds/widgets/colorToPick.dart';
+import 'package:leds_remasterized/models/luzModel.dart';
+import 'package:leds_remasterized/provider/postRequests.dart';
+import 'package:leds_remasterized/widgets/colorToPick.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class DialogWidget extends StatefulWidget {
   final Luz luzEffect;
 
-  DialogWidget({@required this.luzEffect});
+  DialogWidget({required this.luzEffect});
 
   @override
   _DialogWidgetState createState() => _DialogWidgetState();
@@ -35,11 +35,11 @@ class _DialogWidgetState extends State<DialogWidget> {
         showLabel: false,
       ),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text('cancell'.tr()),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        FlatButton(
+        TextButton(
           child: Text('changeColor'.tr()),
           onPressed: () {
             Navigator.of(context).pop();
@@ -71,11 +71,11 @@ class _DialogWidgetState extends State<DialogWidget> {
       title: Text('changeState'.tr()),
       content: Text('changeStateDescription'.tr() + '${widget.luzEffect.name}?'),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text('cancell'.tr()),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        FlatButton(
+        TextButton(
           child: Text('changeMode'.tr()),
           onPressed: () {
             Navigator.of(context).pop();

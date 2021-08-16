@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:leds/models/streamValidator.dart';
-import 'package:leds/prefs/preferences.dart';
-import 'package:leds/provider/themeChanger.dart';
-import 'package:leds/widgets/customTextField.dart';
+import 'package:leds_remasterized/models/streamValidator.dart';
+import 'package:leds_remasterized/prefs/preferences.dart';
+import 'package:leds_remasterized/provider/themeChanger.dart';
+import 'package:leds_remasterized/widgets/customTextField.dart';
 import 'package:provider/provider.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -14,8 +14,8 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final UserPreferences _prefs = new UserPreferences();
-  Color _primaryColor;
-  bool _darkMode;
+  late Color _primaryColor;
+  late bool _darkMode;
 
   @override
   void initState() {
@@ -70,7 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _optionItem(String titulo, String subtitulo, IconData icono, Function funcion) {
+  Widget _optionItem(String titulo, String subtitulo, IconData icono, funcion) {
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       elevation: 2,
@@ -125,20 +125,20 @@ class _SettingsPageState extends State<SettingsPage> {
                   return Container(
                     width: double.infinity,
                     height: 40,
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4.0),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(_primaryColor),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4.0),
+                        )),
                       ),
-                      color: _primaryColor,
-                      textColor: Colors.white,
-                      child: Text('change'.tr()),
+                      child: Text('change'.tr(), style: TextStyle(color: Colors.white)),
                       onPressed: snapshot.hasData
                           ? () {
                               _prefs.ipAddress = snapshot.data;
                               Navigator.pop(context);
                             }
                           : null,
-                      elevation: 4.0,
                     ),
                   );
                 },
@@ -170,13 +170,13 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text('cancell'.tr()),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        FlatButton(
+        TextButton(
           child: Text('change'.tr()),
           onPressed: () {
             setState(() {
@@ -239,7 +239,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _cambiarIdioma(String code) {
-    EasyLocalization.of(context).locale = Locale(code);
+    context.setLocale(Locale(code));
     _prefs.language = code;
   }
 

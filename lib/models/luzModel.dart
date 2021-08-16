@@ -4,8 +4,8 @@ class Luz {
   bool colorPicker;
 
   Luz({
-    this.name,
-    this.description,
+    required this.name,
+    required this.description,
     this.colorPicker = false,
   });
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:leds/models/luzModel.dart';
-import 'package:leds/pages/settingsPage.dart';
-import 'package:leds/widgets/dialog.dart';
+import 'package:leds_remasterized/models/luzModel.dart';
+import 'package:leds_remasterized/pages/settingsPage.dart';
+import 'package:leds_remasterized/widgets/dialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () => showDialog(
               context: context,
               builder: (_) => DialogWidget(
-                luzEffect: Luz(name: "TurnOff"),
+                luzEffect: Luz(name: "TurnOff", description: "Apagar los leds."),
               ),
             ),
           ),

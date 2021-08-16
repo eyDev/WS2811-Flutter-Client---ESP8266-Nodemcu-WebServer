@@ -8,13 +8,12 @@ class CustomInputField extends StatelessWidget {
   final TextInputType type;
 
   const CustomInputField({
-    @required this.label,
-    @required this.prefixIcon,
-    @required this.tstream,
-    @required this.tonChanged,
-    @required this.type,
-  })  : assert(label != null),
-        assert(prefixIcon != null);
+    required this.label,
+    required this.prefixIcon,
+    required this.tstream,
+    required this.tonChanged,
+    required this.type,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +29,11 @@ class CustomInputField extends StatelessWidget {
               errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red, width: 1.0)),
               focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red, width: 1.0)),
               labelText: label,
-              errorText: snapshot.error,
-              labelStyle: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyText1.color),
+              errorText: snapshot.error.toString(),
+              labelStyle: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyText1!.color),
               prefixIcon: Icon(
                 prefixIcon,
-                color: Theme.of(context).textTheme.bodyText1.color,
+                color: Theme.of(context).textTheme.bodyText1!.color,
               ),
             ),
             onChanged: tonChanged,

@@ -9,15 +9,13 @@ class IPaddressBloc extends Validator {
   Function(String) get changeip => _ipController.sink.add;
 
   dispose() {
-    _ipController?.close();
+    _ipController.close();
   }
 }
 
 class Validator {
   final validarIPaddress = StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
-    Pattern pattern = r'^(([1-9]?\d|1\d\d|2[0-5][0-5]|2[0-4]\d)\.){3}([1-9]?\d|1\d\d|2[0-5][0-5]|2[0-4]\d)$';
-    RegExp regExp = new RegExp(pattern);
-
+    RegExp regExp = new RegExp(r'^(([1-9]?\d|1\d\d|2[0-5][0-5]|2[0-4]\d)\.){3}([1-9]?\d|1\d\d|2[0-5][0-5]|2[0-4]\d)$');
     if (regExp.hasMatch(email)) {
       sink.add(email);
     } else {

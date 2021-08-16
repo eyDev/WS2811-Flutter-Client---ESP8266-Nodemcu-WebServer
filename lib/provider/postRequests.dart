@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:leds/prefs/preferences.dart';
+import 'package:leds_remasterized/prefs/preferences.dart';
 
 class ServerProvider {
   final UserPreferences prefs = UserPreferences();

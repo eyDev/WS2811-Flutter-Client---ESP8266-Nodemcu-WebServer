@@ -1,15 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:leds/models/streamValidator.dart';
-import 'package:leds/pages/homePage.dart';
-import 'package:leds/prefs/preferences.dart';
-import 'package:leds/provider/themeChanger.dart';
+import 'package:leds_remasterized/models/streamValidator.dart';
+import 'package:leds_remasterized/pages/homePage.dart';
+import 'package:leds_remasterized/prefs/preferences.dart';
+import 'package:leds_remasterized/provider/themeChanger.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   final UserPreferences prefs = new UserPreferences();
   await prefs.initPrefs();
   runApp(EasyLocalization(
@@ -59,9 +60,9 @@ class MaterialAppWithTheme extends StatelessWidget {
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
-        EasyLocalization.of(context).delegate,
+        EasyLocalization.of(context)!.delegate,
       ],
-      supportedLocales: EasyLocalization.of(context).supportedLocales,
+      supportedLocales: context.supportedLocales,
       locale: Locale(prefs.language), //EasyLocalization.of(context).locale,
       theme: theme.getTheme(),
     );
